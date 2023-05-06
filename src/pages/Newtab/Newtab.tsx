@@ -5,7 +5,11 @@ export default function Newtab() {
   return (
     <div className="App">
       <div className="card">{number}</div>
-      <button type="button" onClick={() => setNumber((prev) => prev + 1)}>
+      <button
+        type="button"
+        className="btn"
+        onClick={() => setNumber((prev) => prev + 1)}
+      >
         Increment
       </button>
       <div className="h-96 bg-red-400 h-px-2">l</div>
