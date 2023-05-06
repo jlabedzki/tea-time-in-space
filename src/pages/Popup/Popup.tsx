@@ -1,8 +1,7 @@
-import React from 'react';
-import logo from '../../assets/img/logo.svg';
+import logo from 'assets/img/logo.svg';
 import './Popup.css';
 
-const Popup = () => {
+export default function Popup() {
   return (
     <div className="App">
       <header className="App-header">
@@ -21,6 +20,4 @@ const Popup = () => {
       </header>
     </div>
   );
-};
-
-export default Popup;
+}

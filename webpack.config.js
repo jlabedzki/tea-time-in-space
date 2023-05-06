@@ -1,22 +1,28 @@
-var webpack = require('webpack'),
-  path = require('path'),
-  fileSystem = require('fs-extra'),
-  env = require('./utils/env'),
-  CopyWebpackPlugin = require('copy-webpack-plugin'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  TerserPlugin = require('terser-webpack-plugin');
-var { CleanWebpackPlugin } = require('clean-webpack-plugin');
-var ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-var ReactRefreshTypeScript = require('react-refresh-typescript');
+const webpack = require('webpack');
+const path = require('path');
+const fileSystem = require('fs-extra');
+const env = require('./utils/env');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ReactRefreshTypeScript = require('react-refresh-typescript');
 
 const ASSET_PATH = process.env.ASSET_PATH || '/';
 
-var alias = {};
+const alias = {
+  assets: path.resolve(__dirname, 'src/assets/'),
+  background: path.resolve(__dirname, 'src/background/'),
+  content: path.resolve(__dirname, 'src/content/'),
+  components: path.resolve(__dirname, 'src/components/'),
+  pages: path.resolve(__dirname, 'src/pages/'),
+};
 
 // load the secrets
-var secretsPath = path.join(__dirname, 'secrets.' + env.NODE_ENV + '.js');
+const secretsPath = path.join(__dirname, 'secrets.' + env.NODE_ENV + '.js');
 
-var fileExtensions = [
+const fileExtensions = [
   'jpg',
   'jpeg',
   'png',
@@ -35,13 +41,13 @@ if (fileSystem.existsSync(secretsPath)) {
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-var options = {
+const options = {
   mode: process.env.NODE_ENV || 'development',
   entry: {
     popup: path.join(__dirname, 'src', 'pages', 'Popup', 'index.tsx'),
-    panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.tsx'),
-    background: path.join(__dirname, 'src', 'Background', 'index.ts'),
-    contentScript: path.join(__dirname, 'src', 'Content', 'index.ts'),
+    newtab: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.tsx'),
+    background: path.join(__dirname, 'src', 'background', 'index.ts'),
+    contentScript: path.join(__dirname, 'src', 'content', 'index.ts'),
   },
   chromeExtensionBoilerplate: {
     notHotReload: ['background', 'contentScript'],
@@ -187,9 +193,9 @@ var options = {
       cache: false,
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src', 'pages', 'Panel', 'index.html'),
-      filename: 'panel.html',
-      chunks: ['panel'],
+      template: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.html'),
+      filename: 'newtab.html',
+      chunks: ['newtab'],
       cache: false,
     }),
   ].filter(Boolean),
