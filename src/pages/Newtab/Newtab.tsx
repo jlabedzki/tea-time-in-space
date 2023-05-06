@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import './Newtab.css';
 
 export default function Newtab() {
   const [number, setNumber] = useState(0);
   return (
     <div className="App">
-      <div>{number}</div>
+      <div className="card">{number}</div>
       <button type="button" onClick={() => setNumber((prev) => prev + 1)}>
         Increment
       </button>
+      <div className="h-96 bg-red-400 h-px-2">l</div>
+      <h1 className="text-5xl">Hello world</h1>
       <header className="App-header">
         <a
           className="App-link"
