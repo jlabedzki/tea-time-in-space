@@ -1,15 +1,16 @@
 const webpack = require('webpack');
 const path = require('path');
-const fileSystem = require('fs-extra');
-const env = require('./utils/env');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const tailwindcss = require('tailwindcss');
-const autoprefixer = require('autoprefixer');
 const ReactRefreshTypeScript = require('react-refresh-typescript');
+
+const isCiBuild = Boolean(process.env.CI);
+if (!isCiBuild) {
+  require('dotenv').config();
+}
 
 const ASSET_PATH = process.env.ASSET_PATH || '/';
 
@@ -20,9 +21,6 @@ const alias = {
   components: path.resolve(__dirname, 'src/components/'),
   pages: path.resolve(__dirname, 'src/pages/'),
 };
-
-// load the secrets
-const secretsPath = path.join(__dirname, 'secrets.' + env.NODE_ENV + '.js');
 
 const fileExtensions = [
   'jpg',
@@ -37,10 +35,6 @@ const fileExtensions = [
   'woff2',
 ];
 
-if (fileSystem.existsSync(secretsPath)) {
-  alias['secrets'] = secretsPath;
-}
-
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 const options = {
@@ -51,7 +45,7 @@ const options = {
     background: path.join(__dirname, 'src', 'background', 'index.ts'),
     contentScript: path.join(__dirname, 'src', 'content', 'index.ts'),
   },
-  chromeExtensionBoilerplate: {
+  reactRefreshOptions: {
     notHotReload: ['background', 'contentScript'],
   },
   output: {
@@ -63,9 +57,7 @@ const options = {
   module: {
     rules: [
       {
-        // look for .css  files
         test: /\.(css)$/i,
-        // in the `src` directory
         use: [
           {
             loader: 'style-loader',
@@ -73,25 +65,12 @@ const options = {
           {
             loader: 'css-loader',
           },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                ident: 'postcss',
-                plugins: [tailwindcss, autoprefixer],
-              },
-            },
-          },
         ],
       },
       {
         test: new RegExp('.(' + fileExtensions.join('|') + ')$'),
         type: 'asset/resource',
         exclude: /node_modules/,
-        // loader: 'file-loader',
-        // options: {
-        //   name: '[name].[ext]',
-        // },
       },
       {
         test: /\.html$/,
@@ -144,8 +123,7 @@ const options = {
     isDevelopment && new ReactRefreshWebpackPlugin(),
     new CleanWebpackPlugin({ verbose: false }),
     new webpack.ProgressPlugin(),
-    // expose and write the allowed env vars on the compiled bundle
-    new webpack.EnvironmentPlugin(['NODE_ENV']),
+    new webpack.EnvironmentPlugin(['NODE_ENV', 'NASA_API_KEY']),
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -209,7 +187,7 @@ const options = {
   },
 };
 
-if (env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
   options.devtool = 'cheap-module-source-map';
 } else {
   options.optimization = {

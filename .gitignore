@@ -22,4 +22,4 @@
 .vscode
 
 # secrets
-secrets.*.js
+.env
