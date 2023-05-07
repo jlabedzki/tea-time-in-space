@@ -1,13 +1,27 @@
+import { FormControl, IconButton, Grid, TextField } from '@mui/material';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+
 export default function Newtab() {
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center">
-      <div className="icon-input">
-        <input
-          type="text"
+    <Grid
+      container
+      height="100%"
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <FormControl>
+        <TextField
           placeholder="Search Google or type a URL"
-          className="input  w-full max-w-xs"
+          InputProps={{
+            startAdornment: (
+              <IconButton>
+                <SearchOutlinedIcon />
+              </IconButton>
+            ),
+          }}
         />
-      </div>
-    </div>
+      </FormControl>
+    </Grid>
   );
 }
