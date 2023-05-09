@@ -17,14 +17,13 @@ const ASSET_PATH = process.env.ASSET_PATH || '/';
 const alias = {
   assets: path.resolve(__dirname, 'src/assets/'),
   background: path.resolve(__dirname, 'src/background/'),
-  content: path.resolve(__dirname, 'src/content/'),
   components: path.resolve(__dirname, 'src/components/'),
-  pages: path.resolve(__dirname, 'src/pages/'),
 };
 
 const fileExtensions = [
   'jpg',
   'jpeg',
+  'webp',
   'png',
   'gif',
   'eot',
@@ -40,7 +39,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 const options = {
   mode: process.env.NODE_ENV || 'development',
   entry: {
-    newtab: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.tsx'),
+    newtab: path.join(__dirname, 'src', 'index.tsx'),
     background: path.join(__dirname, 'src', 'background', 'index.ts'),
   },
   reactRefreshOptions: {
@@ -161,14 +160,14 @@ const options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'src/assets/img/space-background.jpg',
+          from: 'src/assets/img/space-background.webp',
           to: path.join(__dirname, 'build'),
           force: true,
         },
       ],
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.html'),
+      template: path.join(__dirname, 'src', 'index.html'),
       filename: 'newtab.html',
       chunks: ['newtab'],
       cache: false,

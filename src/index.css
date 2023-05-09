@@ -14,7 +14,7 @@ body {
   display: flex;
   justify-content: center;
   position: relative;
-  background: url('../../assets/img/space-background.jpg');
+  background: url('./assets/img/space-background.webp');
   background-size: cover;
   background-repeat: no-repeat;
 }

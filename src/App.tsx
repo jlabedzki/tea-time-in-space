@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import { GoogleSearchBar } from 'components';
 
-export default function Newtab() {
+export default function App() {
   return (
     <Grid
       container
