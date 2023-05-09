@@ -8,8 +8,6 @@ const fs = require('fs');
 const config = require('../webpack.config');
 const ZipPlugin = require('zip-webpack-plugin');
 
-delete config.reactRefreshOptions;
-
 config.mode = 'production';
 
 const packageInfo = JSON.parse(fs.readFileSync('package.json', 'utf-8'));

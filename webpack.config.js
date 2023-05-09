@@ -42,11 +42,6 @@ const options = {
   entry: {
     popup: path.join(__dirname, 'src', 'pages', 'Popup', 'index.tsx'),
     newtab: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.tsx'),
-    background: path.join(__dirname, 'src', 'background', 'index.ts'),
-    contentScript: path.join(__dirname, 'src', 'content', 'index.ts'),
-  },
-  reactRefreshOptions: {
-    notHotReload: ['background', 'contentScript'],
   },
   output: {
     filename: '[name].bundle.js',
@@ -145,15 +140,6 @@ const options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'src/Content/content.styles.css',
-          to: path.join(__dirname, 'build'),
-          force: true,
-        },
-      ],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
           from: 'src/assets/img/icon-128.png',
           to: path.join(__dirname, 'build'),
           force: true,
@@ -164,6 +150,15 @@ const options = {
       patterns: [
         {
           from: 'src/assets/img/icon-34.png',
+          to: path.join(__dirname, 'build'),
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'src/assets/img/space-background.jpg',
           to: path.join(__dirname, 'build'),
           force: true,
         },

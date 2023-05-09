@@ -1,27 +1,19 @@
-import { FormControl, IconButton, Grid, TextField } from '@mui/material';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import { Grid } from '@mui/material';
+import { GoogleSearchBar } from 'components';
 
 export default function Newtab() {
   return (
     <Grid
       container
+      maxWidth="1920px"
       height="100%"
       direction="column"
       alignItems="center"
       justifyContent="center"
     >
-      <FormControl>
-        <TextField
-          placeholder="Search Google or type a URL"
-          InputProps={{
-            startAdornment: (
-              <IconButton>
-                <SearchOutlinedIcon />
-              </IconButton>
-            ),
-          }}
-        />
-      </FormControl>
+      <Grid item>
+        <GoogleSearchBar />
+      </Grid>
     </Grid>
   );
 }
