@@ -8,13 +8,20 @@ const path = require('path');
 const webpack = require('webpack');
 const config = require('../webpack.config');
 
-Object.entries(config.entry).forEach(([k, v]) => {
-  config.entry[k] = [
-    'webpack/hot/dev-server',
-    `webpack-dev-server/client?hot=true&hostname=localhost&port=${process.env.PORT}`,
-    v,
-  ];
-});
+const { notHotReload } = config.reactRefreshOptions;
+
+Object.entries(config.entry)
+  .filter(([k]) => !notHotReload.includes(k))
+  .forEach(([k, v]) => {
+    config.entry[k] = [
+      'webpack/hot/dev-server',
+      `webpack-dev-server/client?hot=true&hostname=localhost&port=${process.env.PORT}`,
+      v,
+    ];
+  });
+
+// not a valid option for webpack config
+delete config.reactRefreshOptions;
 
 const compiler = webpack(config);
 const server = new WebpackDevServer(
