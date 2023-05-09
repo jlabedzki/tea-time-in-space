@@ -22,6 +22,9 @@ export default function GoogleSearchBar() {
           background: theme.palette.secondary.main,
         }}
         InputProps={{
+          sx: {
+            height: '45px',
+          },
           startAdornment: (
             <IconButton>
               <SearchOutlined />
