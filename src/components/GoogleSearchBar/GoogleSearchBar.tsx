@@ -4,14 +4,7 @@ import { SearchOutlined } from '@mui/icons-material';
 export default function GoogleSearchBar() {
   const theme = useTheme();
   return (
-    <FormControl
-      sx={{
-        [theme.breakpoints.down('sm')]: {
-          width: '400px',
-        },
-        width: '550px',
-      }}
-    >
+    <FormControl sx={{ width: '550px' }}>
       <TextField
         fullWidth
         placeholder="Search Google or type a URL"

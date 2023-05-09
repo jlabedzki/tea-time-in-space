@@ -160,7 +160,7 @@ const options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'src/assets/img/space-background.webp',
+          from: 'src/assets/img/space.webp',
           to: path.join(__dirname, 'build'),
           force: true,
         },
