@@ -1,6 +1,11 @@
-import { Grid, Stack, Typography, useTheme } from '@mui/material';
+import { Grid, Typography, useTheme } from '@mui/material';
+import { spaceFacts } from '../../spaceFacts';
 
 export default function SpaceFactOTD() {
+  // generate random number between 0 and 100
+  const randomNumber = Math.floor(Math.random() * 100);
+  const fact = spaceFacts[randomNumber];
+
   const theme = useTheme();
   return (
     <Grid container direction="row" justifyContent="center" flexWrap="nowrap">
@@ -15,15 +20,12 @@ export default function SpaceFactOTD() {
         <Typography
           p={2}
           sx={{
+            minHeight: '70px',
             background: theme.palette.primary.main + '50',
             borderLeft: `8px solid ${theme.palette.secondary.main}`,
           }}
         >
-          There are approximately 10,000 stars in the observable universe per
-          each grain of sand on Earth. With there being roughly 7.5 sextillion
-          grains of sand on Earth, that makes the number of stars in the
-          universe approximately 7.5 septillion, or
-          75,000,000,000,000,000,000,000,000.
+          {fact}
         </Typography>
       </Grid>
     </Grid>

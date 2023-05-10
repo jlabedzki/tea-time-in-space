@@ -139,33 +139,18 @@ const options = {
         },
       ],
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: 'src/assets/img/icon-128.png',
-          to: path.join(__dirname, 'build'),
-          force: true,
-        },
-      ],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: 'src/assets/img/icon-34.png',
-          to: path.join(__dirname, 'build'),
-          force: true,
-        },
-      ],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: 'src/assets/img/space.webp',
-          to: path.join(__dirname, 'build'),
-          force: true,
-        },
-      ],
-    }),
+    ['icon-128.png', 'icon-34.png', 'space.webp', 'hubble.png'].forEach(
+      (img) =>
+        new CopyWebpackPlugin({
+          patterns: [
+            {
+              from: `src/assets/img/${img}`,
+              to: path.join(__dirname, 'build'),
+              force: true,
+            },
+          ],
+        })
+    ),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'index.html'),
       filename: 'newtab.html',
