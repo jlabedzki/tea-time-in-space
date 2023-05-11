@@ -13,22 +13,24 @@ export default function GoogleSearchBar() {
 
   const handleSearch = () => {
     if (!query) return;
+
     const isUrl =
       /^(https?:\/\/)?(www\.)?([a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]+)(\/[^\s]*)?$/.test(
         query
       );
 
-    if (isUrl) {
-      if (!query.startsWith('www') || !query.startsWith('https')) {
-        window.location.href = `https://${query}`;
-      } else {
-        window.location.href = query;
-      }
-      return;
+    if (!isUrl) {
+      const searchParams = new URLSearchParams({ q: query }).toString();
+      return window.location.replace(
+        `https://www.google.com/search?${searchParams}`
+      );
     }
 
-    const searchParams = new URLSearchParams({ q: query }).toString();
-    window.location.replace(`https://www.google.com/search?${searchParams}`);
+    if (!query.startsWith('www') || !query.startsWith('https')) {
+      return (window.location.href = `https://${query}`);
+    }
+
+    return (window.location.href = query);
   };
 
   const theme = useTheme();
