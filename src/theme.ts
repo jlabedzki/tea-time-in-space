@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material';
 
 const secondaryMain = '#F5F5F5';
-const bgDefault = '#27292b';
+const bgDefault = 'black';
 
 const theme = createTheme({
   palette: {

@@ -139,7 +139,7 @@ const options = {
         },
       ],
     }),
-    ['icon-128.png', 'icon-34.png', 'space.webp', 'hubble.png'].forEach(
+    ...['icon-128.png', 'icon-34.png', 'space.webp'].map(
       (img) =>
         new CopyWebpackPlugin({
           patterns: [
