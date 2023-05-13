@@ -18,6 +18,7 @@ const alias = {
   assets: path.resolve(__dirname, 'src/assets/'),
   background: path.resolve(__dirname, 'src/background/'),
   components: path.resolve(__dirname, 'src/components/'),
+  hooks: path.resolve(__dirname, 'src/hooks/'),
 };
 
 const fileExtensions = [
