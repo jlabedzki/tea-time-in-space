@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material';
 
 const secondaryMain = '#F5F5F5';
-const bgDefault = 'black';
+const bgDefault = '#0d0c0c';
 
 const theme = createTheme({
   palette: {
@@ -14,7 +14,7 @@ const theme = createTheme({
     },
     background: {
       default: bgDefault,
-      paper: '#0a1525',
+      paper: bgDefault,
     },
   },
   typography: {
@@ -30,6 +30,14 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          border: `4px solid black`,
+          backgroundImage: 'none',
+        },
+      },
+    },
     MuiIconButton: {
       styleOverrides: {
         root: {

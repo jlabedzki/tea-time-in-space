@@ -1,10 +1,4 @@
-import {
-  FormControl,
-  IconButton,
-  TextField,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { FormControl, IconButton, TextField, useTheme } from '@mui/material';
 import { SearchOutlined } from '@mui/icons-material';
 import { useState } from 'react';
 

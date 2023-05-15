@@ -1,6 +1,6 @@
 import { Button, ButtonProps, Grid, Stack, styled } from '@mui/material';
 import {
-  AOTD,
+  APOD,
   GoogleSearchBar,
   ISSSpotter,
   MarsPhotos,
@@ -37,7 +37,7 @@ export default function App() {
             columnGap={5}
             rowGap={3}
           >
-            <AOTD />
+            <APOD />
             <ISSSpotter />
             <MarsPhotos />
             <WhosInSpace />
