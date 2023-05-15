@@ -1,3 +1,4 @@
+import { format, parseISO } from 'date-fns';
 import { useEffect, useState } from 'react';
 import * as z from 'zod';
 
@@ -23,9 +24,7 @@ export default function useAPOD() {
     async function fetchAndSetAOTD() {
       let { APOD } = await chrome.storage.sync.get('APOD');
 
-      if (APOD) {
-        // TODO: Check if APOD is still fresh
-
+      if (APOD && !isAPODstale(APOD)) {
         setAPOD(validateAPODResponse(APOD));
         setLoading(false);
         return;
@@ -57,4 +56,8 @@ function validateAPODResponse(data: unknown): APODResponse {
   }
 
   throw new Error(result.error.message);
+}
+
+function isAPODstale(APOD: APODResponse) {
+  return APOD.date !== format(new Date(), 'yyyy-MM-dd');
 }
