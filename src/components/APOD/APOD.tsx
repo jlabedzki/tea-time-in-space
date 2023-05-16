@@ -13,16 +13,20 @@ import { useAPOD } from 'hooks';
 import { StyledButton } from '../../App';
 
 export default function APOD() {
-  const [APODmodalOpen, setAPODmodalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const { APOD, loading } = useAPOD();
 
+  function openModal() {
+    setModalOpen(true);
+  }
+
   function closeModal() {
-    setAPODmodalOpen(false);
+    setModalOpen(false);
   }
 
   return (
     <>
-      <Dialog open={APODmodalOpen} onClose={closeModal} fullWidth maxWidth="lg">
+      <Dialog open={modalOpen} onClose={closeModal} fullWidth maxWidth="md">
         {loading ? (
           <CircularProgress />
         ) : (
@@ -57,11 +61,9 @@ export default function APOD() {
           </>
         )}
       </Dialog>
-      <StyledButton onClick={() => setAPODmodalOpen(true)}>
+      <StyledButton onClick={openModal}>
         Astronomy Photo of the Day
       </StyledButton>
     </>
   );
 }
-
-// TODO: add function to check if AOTD is fresh (from today)
