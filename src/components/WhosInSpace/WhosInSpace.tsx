@@ -68,7 +68,6 @@ export default function WhosInSpace() {
                   flexGrow: 1,
                   height: '50px',
                   px: 2,
-                  cursor: 'pointer',
                 }}
                 key={`${person.name}-${person.craft}`}
               >
