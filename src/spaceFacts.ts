@@ -202,7 +202,6 @@ export const spaceFacts = [
   'Peter Diamandis, co-founder of Planetary Resources, believes that commercial spaceflight will open up opportunities for tourism, research, and industrial activities in space.',
   "Freeman Dyson suggested the concept of a 'Dyson Sphere,' a megastructure that would harness the energy of a star and provide ample resources for an advanced civilization.",
   'Anders Sandberg, a transhumanist thinker, speculates that future space colonization efforts could lead to the emergence of new forms of human existence and evolution.',
-
   "The Primordial Soup Theory suggests that life originated from a mixture of organic compounds in Earth's early oceans, where chemical reactions led to the formation of simple self-replicating molecules.",
   'The Panspermia Theory proposes that life on Earth originated from microorganisms or organic molecules that arrived from outer space, either through comets, meteoroids, or interstellar dust.',
   'In the Miller-Urey Experiment, a laboratory simulation, Stanley Miller and Harold Urey demonstrated that organic compounds, including amino acids, could be synthesized from a mixture of gases and electrical sparks, supporting the possibility of abiogenesis (life arising from nonlife).',
