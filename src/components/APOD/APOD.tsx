@@ -36,7 +36,9 @@ export default function APOD() {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography>{APOD?.title}</Typography>
+              <Typography fontSize="1.5rem" fontWeight={500}>
+                {APOD?.title}
+              </Typography>
               <IconButton onClick={closeModal} aria-label="close">
                 <Close color="secondary" />
               </IconButton>{' '}
