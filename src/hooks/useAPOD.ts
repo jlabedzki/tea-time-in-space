@@ -22,7 +22,7 @@ export default function useAPOD() {
 
   useEffect(() => {
     async function fetchAndSetAOTD() {
-      let { APOD } = await chrome.storage.sync.get('APOD');
+      let { APOD } = await chrome.storage.local.get('APOD');
 
       if (APOD && !isAPODstale(APOD)) {
         setAPOD(validateAPODResponse(APOD));
@@ -31,7 +31,7 @@ export default function useAPOD() {
       }
 
       APOD = await fetchAPOD();
-      await chrome.storage.sync.set({ APOD });
+      await chrome.storage.local.set({ APOD });
       setAPOD(APOD);
       setLoading(false);
     }

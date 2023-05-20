@@ -10,29 +10,14 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { z } from 'zod';
 import { StyledButton } from '../../App';
+import { useWhosInSpace } from 'hooks';
 
-const PersonSchema = z.object({
-  craft: z.string(),
-  name: z.string(),
-});
-
-const ApiResponseSchema = z.object({
-  message: z.string(),
-  number: z.number(),
-  people: z.array(PersonSchema),
-});
-
-type ApiResponse = z.infer<typeof ApiResponseSchema>;
-
+// TODO: update styling and add loading indicator
 export default function WhosInSpace() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [peopleInSpace, setPeopleInSpace] = useState<ApiResponse>();
 
-  useEffect(() => {
-    getWhoIsInSpace().then((data) => setPeopleInSpace(data));
-  }, []);
+  const { astronauts, loading } = useWhosInSpace();
 
   function openModal() {
     setModalOpen(true);
@@ -51,7 +36,7 @@ export default function WhosInSpace() {
           alignItems="center"
         >
           <Typography fontSize="1.5rem" fontWeight={500} mr={5}>
-            People currently in space: {peopleInSpace?.number}
+            People currently in space: {astronauts?.length}
           </Typography>
           <IconButton onClick={closeModal} aria-label="close">
             <Close color="secondary" />
@@ -59,7 +44,7 @@ export default function WhosInSpace() {
         </DialogTitle>
         <DialogContent>
           <Stack gap={2}>
-            {peopleInSpace?.people.map((person, i) => (
+            {astronauts?.map((astronaut, i) => (
               <Card
                 sx={{
                   display: 'flex',
@@ -69,18 +54,17 @@ export default function WhosInSpace() {
                   height: '50px',
                   px: 2,
                 }}
-                key={`${person.name}-${person.craft}`}
+                key={astronaut.id}
               >
                 <Link
                   color="#4cabff"
                   href={`https://www.google.com/search?${new URLSearchParams({
-                    q: person.name,
+                    q: astronaut.name,
                   }).toString()}`}
                   target="_blank"
                 >
-                  <Typography>{person.name}</Typography>
+                  <Typography>{astronaut.name}</Typography>
                 </Link>
-                <Typography ml={1}>({person.craft})</Typography>
               </Card>
             ))}
           </Stack>
@@ -89,17 +73,4 @@ export default function WhosInSpace() {
       <StyledButton onClick={openModal}>Who's in space?</StyledButton>
     </>
   );
-}
-
-async function getWhoIsInSpace() {
-  const response = await fetch('http://api.open-notify.org/astros.json');
-  return validateApiResponse(await response.json());
-}
-
-function validateApiResponse(data: unknown): ApiResponse {
-  const result = ApiResponseSchema.safeParse(data);
-  if (!result.success) {
-    throw new Error(result.error.message);
-  }
-  return result.data;
 }
