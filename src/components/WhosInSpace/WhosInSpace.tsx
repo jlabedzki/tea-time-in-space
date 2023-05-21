@@ -9,10 +9,19 @@ import {
   Link,
   Stack,
   Typography,
+  styled,
 } from '@mui/material';
 import { useState } from 'react';
 import { StyledButton } from '../../App';
 import { useWhosInSpace } from 'hooks';
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  flexGrow: 1,
+  height: '50px',
+  padding: `0 ${theme.spacing(2)}`,
+}));
 
 // TODO: update styling and add loading indicator
 export default function WhosInSpace() {
@@ -49,30 +58,21 @@ export default function WhosInSpace() {
             </DialogTitle>
             <DialogContent>
               <Stack gap={2}>
-                {astronauts?.map((astronaut, i) => (
-                  <Card
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      flexGrow: 1,
-                      height: '50px',
-                      px: 2,
-                    }}
-                    key={astronaut.id}
-                  >
+                {astronauts?.map((astronaut) => (
+                  <StyledCard key={astronaut.id}>
                     <Link
                       color="#4cabff"
-                      href={`https://www.google.com/search?${new URLSearchParams(
-                        {
+                      href={
+                        astronaut.wiki ??
+                        `https://www.google.com/search?${new URLSearchParams({
                           q: astronaut.name,
-                        }
-                      ).toString()}`}
+                        }).toString()}`
+                      }
                       target="_blank"
                     >
                       <Typography>{astronaut.name}</Typography>
                     </Link>
-                  </Card>
+                  </StyledCard>
                 ))}
               </Stack>
             </DialogContent>
