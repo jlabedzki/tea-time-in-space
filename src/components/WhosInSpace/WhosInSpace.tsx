@@ -1,4 +1,4 @@
-import { Close } from '@mui/icons-material';
+import { Close, OpenInNew } from '@mui/icons-material';
 import {
   Card,
   CircularProgress,
@@ -69,8 +69,12 @@ export default function WhosInSpace() {
                         }).toString()}`
                       }
                       target="_blank"
+                      underline="none"
                     >
-                      <Typography>{astronaut.name}</Typography>
+                      <Stack direction="row" alignItems="center">
+                        <Typography mr={1}>{astronaut.name}</Typography>
+                        <OpenInNew />
+                      </Stack>
                     </Link>
                   </StyledCard>
                 ))}
