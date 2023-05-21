@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import * as z from 'zod';
 
@@ -67,23 +68,26 @@ const responseSchema = z.object({
 
 type APIResponse = z.infer<typeof responseSchema>;
 
-// TODO: add timestamp to localstorage entry and update every week
 export default function useWhosInSpace() {
   const [astronauts, setAstronauts] = useState<Astronaut[]>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchAndSetAstronauts() {
-      let { astronauts } = await chrome.storage.local.get('astronauts');
+      let { astronauts, dateAstronautsFetched } =
+        await chrome.storage.local.get(['astronauts', 'dateAstronautsFetched']);
 
-      if (astronauts) {
+      if (astronauts && isWithinSevenDays(dateAstronautsFetched)) {
         setAstronauts(validateResponse(astronauts));
         setLoading(false);
         return;
       }
 
       astronauts = await fetchAstronauts();
-      await chrome.storage.local.set({ astronauts });
+      await chrome.storage.local.set({
+        astronauts,
+        dateAstronautsFetched: format(new Date(), 'yyyy-MM-dd'),
+      });
       setAstronauts(astronauts);
       setLoading(false);
     }
@@ -113,4 +117,11 @@ function validateResponse(data: unknown): Astronaut[] {
   }
 
   throw new Error(result.error.message);
+}
+
+// datestring is formated as yyyy-MM-dd
+function isWithinSevenDays(datestring: string) {
+  const diff = new Date().getTime() - new Date(datestring).getTime();
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  return days < 7;
 }

@@ -39,7 +39,7 @@ export default function App() {
           >
             <APOD />
             <ISSSpotter />
-            <MarsPhotos />
+            {/* <MarsPhotos /> */}
             <WhosInSpace />
           </Stack>
         </Grid>
