@@ -140,7 +140,7 @@ const options = {
         },
       ],
     }),
-    ...['icon-128.png', 'icon-34.png', 'space.webp'].map(
+    ...['logo-128.png', 'logo-32.png', 'space.webp'].map(
       (img) =>
         new CopyWebpackPlugin({
           patterns: [

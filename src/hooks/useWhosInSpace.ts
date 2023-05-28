@@ -57,7 +57,7 @@ const astronautSchema = z.object({
   first_flight: z.nullable(z.string().datetime()),
 });
 
-type Astronaut = z.infer<typeof astronautSchema>;
+export type Astronaut = z.infer<typeof astronautSchema>;
 
 const responseSchema = z.object({
   count: z.number(),

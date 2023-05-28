@@ -1,7 +1,14 @@
-import { Close, OpenInNew } from '@mui/icons-material';
 import {
+  Close,
+  ExpandLessOutlined,
+  ExpandMoreOutlined,
+  OpenInNew,
+} from '@mui/icons-material';
+import {
+  Avatar,
   Card,
   CircularProgress,
+  Collapse,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -13,14 +20,15 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { StyledButton } from '../../App';
-import { useWhosInSpace } from 'hooks';
+import { useWhosInSpace, Astronaut } from 'hooks';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   display: 'flex',
-  alignItems: 'center',
+  flexDirection: 'column',
+  justifyContent: 'center',
   flexGrow: 1,
-  height: '50px',
-  padding: `0 ${theme.spacing(2)}`,
+  minHeight: '50px',
+  padding: theme.spacing(2),
 }));
 
 // TODO: update styling and add loading indicator
@@ -39,7 +47,7 @@ export default function WhosInSpace() {
 
   return (
     <>
-      <Dialog open={modalOpen} onClose={closeModal}>
+      <Dialog open={modalOpen} onClose={closeModal} fullWidth maxWidth="md">
         {loading ? (
           <CircularProgress />
         ) : (
@@ -49,9 +57,12 @@ export default function WhosInSpace() {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography fontSize="1.5rem" fontWeight={500} mr={5}>
-                People currently in space: {astronauts?.length}
-              </Typography>
+              <Stack gap={1}>
+                <Typography fontSize="1.5rem" fontWeight={500} mr={5}>
+                  People currently in space: {astronauts?.length}*
+                </Typography>
+                <Typography fontWeight={500}>*Updated weekly</Typography>
+              </Stack>
               <IconButton onClick={closeModal} aria-label="close">
                 <Close color="secondary" />
               </IconButton>{' '}
@@ -59,24 +70,7 @@ export default function WhosInSpace() {
             <DialogContent>
               <Stack gap={2}>
                 {astronauts?.map((astronaut) => (
-                  <StyledCard key={astronaut.id}>
-                    <Link
-                      color="#4cabff"
-                      href={
-                        astronaut.wiki ??
-                        `https://www.google.com/search?${new URLSearchParams({
-                          q: astronaut.name,
-                        }).toString()}`
-                      }
-                      target="_blank"
-                      underline="none"
-                    >
-                      <Stack direction="row" alignItems="center">
-                        <Typography mr={1}>{astronaut.name}</Typography>
-                        <OpenInNew />
-                      </Stack>
-                    </Link>
-                  </StyledCard>
+                  <AstronautCard key={astronaut.id} astronaut={astronaut} />
                 ))}
               </Stack>
             </DialogContent>
@@ -85,5 +79,55 @@ export default function WhosInSpace() {
       </Dialog>
       <StyledButton onClick={openModal}>Who's in space?</StyledButton>
     </>
+  );
+}
+
+function AstronautCard({ astronaut }: { astronaut: Astronaut }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <StyledCard key={astronaut.id}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack direction="row" alignItems="center" columnGap={3}>
+          <Avatar
+            variant="rounded"
+            src={astronaut.profile_image_thumbnail ?? ''}
+            alt={astronaut.name}
+            sx={{
+              width: '65px',
+              height: '65px',
+            }}
+          />
+          <Link
+            color="#4cabff"
+            href={
+              astronaut.wiki ??
+              `https://www.google.com/search?${new URLSearchParams({
+                q: astronaut.name,
+              }).toString()}`
+            }
+            target="_blank"
+            underline="none"
+          >
+            <Stack direction="row" alignItems="center">
+              <Typography mr={1}>{astronaut.name}</Typography>
+              <OpenInNew />
+            </Stack>
+          </Link>
+        </Stack>
+        <IconButton
+          aria-label="expand info"
+          sx={{ color: 'white' }}
+          onClick={() => setExpanded((prev) => !prev)}
+        >
+          {expanded ? <ExpandLessOutlined /> : <ExpandMoreOutlined />}
+        </IconButton>
+      </Stack>
+      <Collapse in={expanded} unmountOnExit>
+        <Typography textAlign="justify" pt={2}>
+          {astronaut.bio}
+        </Typography>
+      </Collapse>
+    </StyledCard>
   );
 }

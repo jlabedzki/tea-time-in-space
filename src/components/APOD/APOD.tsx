@@ -6,7 +6,6 @@ import {
   IconButton,
   Typography,
   Box,
-  useTheme,
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import { useState } from 'react';
@@ -16,7 +15,6 @@ import { StyledButton } from '../../App';
 export default function APOD() {
   const [modalOpen, setModalOpen] = useState(false);
   const { APOD, loading } = useAPOD();
-  const theme = useTheme();
 
   function openModal() {
     setModalOpen(true);
