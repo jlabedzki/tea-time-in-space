@@ -68,7 +68,7 @@ export default function WhosInSpace() {
                   <Close color="secondary" />
                 </IconButton>{' '}
               </Stack>
-              <Typography fontWeight={500}>*Updated weekly</Typography>
+              <Typography fontSize="0.85rem">*Updated weekly</Typography>
             </DialogTitle>
             <DialogContent>
               <Stack gap={2}>
