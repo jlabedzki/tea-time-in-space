@@ -2,6 +2,8 @@ import {
   Close,
   ExpandLessOutlined,
   ExpandMoreOutlined,
+  Instagram,
+  Twitter,
   OpenInNew,
 } from '@mui/icons-material';
 import {
@@ -21,6 +23,7 @@ import {
 import { useState } from 'react';
 import { StyledButton } from '../../App';
 import { useWhosInSpace, Astronaut } from 'hooks';
+import { format } from 'date-fns';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   display: 'flex',
@@ -52,20 +55,20 @@ export default function WhosInSpace() {
           <CircularProgress />
         ) : (
           <>
-            <DialogTitle
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Stack gap={1}>
+            <DialogTitle>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
                 <Typography fontSize="1.5rem" fontWeight={500} mr={5}>
                   People currently in space: {astronauts?.length}*
                 </Typography>
-                <Typography fontWeight={500}>*Updated weekly</Typography>
+                <IconButton onClick={closeModal} aria-label="close">
+                  <Close color="secondary" />
+                </IconButton>{' '}
               </Stack>
-              <IconButton onClick={closeModal} aria-label="close">
-                <Close color="secondary" />
-              </IconButton>{' '}
+              <Typography fontWeight={500}>*Updated weekly</Typography>
             </DialogTitle>
             <DialogContent>
               <Stack gap={2}>
@@ -87,37 +90,90 @@ function AstronautCard({ astronaut }: { astronaut: Astronaut }) {
 
   return (
     <StyledCard key={astronaut.id}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Stack direction="row" alignItems="center" columnGap={3}>
-          <Avatar
-            variant="rounded"
-            src={astronaut.profile_image_thumbnail ?? ''}
-            alt={astronaut.name}
-            sx={{
-              width: '65px',
-              height: '65px',
-            }}
-          />
-          <Link
-            color="#4cabff"
-            href={
-              astronaut.wiki ??
-              `https://www.google.com/search?${new URLSearchParams({
-                q: astronaut.name,
-              }).toString()}`
-            }
-            target="_blank"
-            underline="none"
-          >
-            <Stack direction="row" alignItems="center">
-              <Typography mr={1}>{astronaut.name}</Typography>
-              <OpenInNew />
+      <Stack direction="row" gap={3}>
+        <Avatar
+          variant="rounded"
+          src={astronaut.profile_image_thumbnail ?? ''}
+          alt={astronaut.name}
+          sx={{
+            width: '65px',
+            height: '65px',
+          }}
+        />
+        <Stack rowGap={1}>
+          <Stack direction="row" columnGap={1}>
+            <Link
+              color="#4cabff"
+              href={
+                astronaut.wiki ??
+                `https://www.google.com/search?${new URLSearchParams({
+                  q: astronaut.name,
+                }).toString()}`
+              }
+              target="_blank"
+              underline="none"
+              sx={{ mr: 2 }}
+            >
+              <Stack direction="row" alignItems="center">
+                <Typography mr={1}>{astronaut.name}</Typography>
+                <OpenInNew />
+              </Stack>
+            </Link>
+            {astronaut.instagram && (
+              <Link color="#fff" href={astronaut.instagram} target="_blank">
+                <Instagram />
+              </Link>
+            )}
+            {astronaut.twitter && (
+              <Link color="#fff" href={astronaut.twitter} target="_blank">
+                <Twitter />
+              </Link>
+            )}
+          </Stack>
+          <Stack direction="row" columnGap={3}>
+            <Stack rowGap={0.5}>
+              <Typography fontSize="0.85rem">
+                Age: {astronaut.age ?? 'N/A'}
+              </Typography>
+              <Typography fontSize="0.85rem">
+                Born:{' '}
+                {astronaut.date_of_birth
+                  ? new Date(astronaut.date_of_birth).toLocaleString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })
+                  : 'N/A'}
+              </Typography>
             </Stack>
-          </Link>
+            <Stack rowGap={0.5}>
+              <Typography fontSize="0.85rem">
+                Nationality: {astronaut.nationality}
+              </Typography>
+              <Typography fontSize="0.85rem">
+                Time in space: {getNumberOfDays(astronaut.time_in_space)} days
+              </Typography>
+            </Stack>
+            <Stack rowGap={0.5}>
+              <Typography fontSize="0.85rem">
+                First flight:{' '}
+                {astronaut.first_flight
+                  ? new Date(astronaut.first_flight).toLocaleString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })
+                  : 'N/A'}
+              </Typography>
+              <Typography fontSize="0.85rem">
+                Space walks: {astronaut.spacewalks_count ?? 0}
+              </Typography>
+            </Stack>
+          </Stack>
         </Stack>
         <IconButton
           aria-label="expand info"
-          sx={{ color: 'white' }}
+          sx={{ color: 'white', ml: 'auto', alignSelf: 'center' }}
           onClick={() => setExpanded((prev) => !prev)}
         >
           {expanded ? <ExpandLessOutlined /> : <ExpandMoreOutlined />}
@@ -131,3 +187,11 @@ function AstronautCard({ astronaut }: { astronaut: Astronaut }) {
     </StyledCard>
   );
 }
+
+const getNumberOfDays = (durationString: string) => {
+  const match = durationString.match(/(\d+)D/);
+  if (!match || match.length < 2) {
+    return 0; // Duration does not contain days
+  }
+  return parseInt(match[1]);
+};
