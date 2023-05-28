@@ -96,8 +96,8 @@ function AstronautCard({ astronaut }: { astronaut: Astronaut }) {
           src={astronaut.profile_image_thumbnail ?? ''}
           alt={astronaut.name}
           sx={{
-            width: '65px',
-            height: '65px',
+            width: '80px',
+            height: '80px',
           }}
         />
         <Stack rowGap={1}>
