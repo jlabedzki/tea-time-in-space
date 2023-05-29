@@ -6,14 +6,14 @@ const ISSPositionSchema = z.object({
   longitude: z.string(),
 });
 
-const ISSLocationResponse = z.object({
+const APIResponse = z.object({
   iss_position: ISSPositionSchema,
   message: z.string(),
   timestamp: z.number(),
 });
 
 export type ISSPosition = z.infer<typeof ISSPositionSchema>;
-type ISSLocationResponse = z.infer<typeof ISSLocationResponse>;
+type ISSLocationResponse = z.infer<typeof APIResponse>;
 
 export default function useISSLocation() {
   const [initialLoading, setInitialLoading] = useState(true);
@@ -35,7 +35,7 @@ export default function useISSLocation() {
 }
 
 function validateISSResponse(data: unknown): ISSLocationResponse {
-  const result = ISSLocationResponse.safeParse(data);
+  const result = APIResponse.safeParse(data);
   if (result.success) {
     return result.data;
   }

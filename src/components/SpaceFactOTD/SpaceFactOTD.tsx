@@ -1,12 +1,11 @@
 import { Grid, Typography, useTheme } from '@mui/material';
+import { useFactOTD } from 'hooks';
 import { spaceFacts } from '../../spaceFacts';
 
 export default function SpaceFactOTD() {
-  // generate random number between 0 and 100
-  const randomNumber = Math.floor(Math.random() * 100);
-  const fact = spaceFacts[randomNumber];
-
   const theme = useTheme();
+  const factIndex = useFactOTD();
+
   return (
     <Grid container direction="row" justifyContent="center" flexWrap="nowrap">
       <Grid item>
@@ -25,7 +24,7 @@ export default function SpaceFactOTD() {
             borderLeft: `8px solid ${theme.palette.secondary.main}`,
           }}
         >
-          {fact}
+          {factIndex !== undefined && spaceFacts[factIndex]}
         </Typography>
       </Grid>
     </Grid>

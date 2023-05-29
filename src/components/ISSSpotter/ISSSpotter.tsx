@@ -8,7 +8,7 @@ import {
   Stack,
 } from '@mui/material';
 import { useState } from 'react';
-import { MapContainer, TileLayer, ImageOverlay, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, ImageOverlay } from 'react-leaflet';
 import ISS from 'assets/img/iss.png';
 import { useISSLocation } from 'hooks';
 import { StyledButton } from '../../App';
@@ -34,7 +34,7 @@ export default function ISSSpotter() {
 
 function ISSModal(props: { modalOpen: boolean; closeModal: () => void }) {
   const { modalOpen, closeModal } = props;
-  const { location, initialLoading } = useISSLocation();
+  const { location } = useISSLocation();
 
   return (
     <Dialog open={modalOpen} onClose={closeModal} fullWidth maxWidth="md">
