@@ -3,7 +3,6 @@ import {
   APOD,
   GoogleSearchBar,
   ISSSpotter,
-  MarsPhotos,
   SpaceFactOTD,
   WhosInSpace,
 } from 'components';
@@ -39,7 +38,6 @@ export default function App() {
           >
             <APOD />
             <ISSSpotter />
-            {/* <MarsPhotos /> */}
             <WhosInSpace />
           </Stack>
         </Grid>

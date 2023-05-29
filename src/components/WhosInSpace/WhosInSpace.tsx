@@ -23,7 +23,6 @@ import {
 import { useState } from 'react';
 import { StyledButton } from '../../App';
 import { useWhosInSpace, Astronaut } from 'hooks';
-import { format } from 'date-fns';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   display: 'flex',
