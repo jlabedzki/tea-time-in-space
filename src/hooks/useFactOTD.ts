@@ -7,11 +7,11 @@ export default function useFactOTD() {
   useEffect(() => {
     const getFactIndex = async () => {
       const currentTimestamp = new Date().getTime();
-      const {
-        factOTD: { index, timestamp },
-      } = await chrome.storage.local.get('factOTD');
+      const { factOTD } = (await chrome.storage.local.get('factOTD')) as {
+        factOTD: { index: number; timestamp: number } | undefined;
+      };
 
-      if (index === undefined) {
+      if (!factOTD) {
         chrome.storage.local.set({
           factOTD: {
             index: 0,
@@ -21,6 +21,8 @@ export default function useFactOTD() {
         setFactIndex(0);
         return;
       }
+
+      const { index, timestamp } = factOTD;
 
       if (isDifferentDay(timestamp, currentTimestamp)) {
         const newIndex = (index + 1) % spaceFacts.length;
