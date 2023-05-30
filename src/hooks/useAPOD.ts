@@ -19,27 +19,33 @@ export type APODResponse = z.infer<typeof APODResponseSchema>;
 export default function useAPOD() {
   const [APOD, setAPOD] = useState<APODResponse>();
   const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    async function fetchAndSetAOTD() {
-      let { APOD } = await chrome.storage.local.get('APOD');
+    const fetchAndSetAOTD = async () => {
+      try {
+        let { APOD } = await chrome.storage.local.get('APOD');
 
-      if (APOD && !isAPODstale(APOD)) {
-        setAPOD(validateAPODResponse(APOD));
+        if (APOD && !isAPODstale(APOD)) {
+          setAPOD(validateAPODResponse(APOD));
+          setLoading(false);
+          return;
+        }
+
+        APOD = await fetchAPOD();
+        await chrome.storage.local.set({ APOD });
+        setAPOD(APOD);
         setLoading(false);
-        return;
+      } catch (e) {
+        console.error(e);
+        setIsError(true);
       }
-
-      APOD = await fetchAPOD();
-      await chrome.storage.local.set({ APOD });
-      setAPOD(APOD);
-      setLoading(false);
-    }
+    };
 
     fetchAndSetAOTD();
   }, []);
 
-  return { APOD, loading };
+  return { APOD, loading, isError };
 }
 
 async function fetchAPOD() {

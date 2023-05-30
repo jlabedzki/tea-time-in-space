@@ -18,20 +18,30 @@ type ISSLocationResponse = z.infer<typeof APIResponse>;
 export default function useISSLocation() {
   const [initialLoading, setInitialLoading] = useState(true);
   const [location, setLocation] = useState<ISSPosition>();
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
+    if (isError) return;
+
     const fetchISS = async () => {
-      const response = await fetch('http://api.open-notify.org/iss-now.json');
-      const data = validateISSResponse(await response.json());
-      setLocation(data.iss_position);
+      try {
+        const response = await fetch('http://api.open-notify.org/iss-now.json');
+        const data = validateISSResponse(await response.json());
+        setLocation(data.iss_position);
+      } catch (e) {
+        console.error(e);
+        setIsError(true);
+      }
       setInitialLoading(false);
     };
+
     fetchISS();
+
     const interval = setInterval(fetchISS, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isError]);
 
-  return { location, initialLoading };
+  return { location, initialLoading, isError };
 }
 
 function validateISSResponse(data: unknown): ISSLocationResponse {

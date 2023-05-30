@@ -5,6 +5,7 @@ import {
   Instagram,
   Twitter,
   OpenInNew,
+  ErrorOutline,
 } from '@mui/icons-material';
 import {
   Avatar,
@@ -33,11 +34,8 @@ const StyledCard = styled(Card)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
-// TODO: update styling and add loading indicator
 export default function WhosInSpace() {
   const [modalOpen, setModalOpen] = useState(false);
-
-  const { astronauts, loading } = useWhosInSpace();
 
   function openModal() {
     setModalOpen(true);
@@ -49,38 +47,70 @@ export default function WhosInSpace() {
 
   return (
     <>
-      <Dialog open={modalOpen} onClose={closeModal} fullWidth maxWidth="md">
-        {loading ? (
-          <CircularProgress />
-        ) : (
-          <>
-            <DialogTitle>
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Typography fontSize="1.5rem" fontWeight={500} mr={5}>
-                  People currently in space: {astronauts?.length}*
-                </Typography>
-                <IconButton onClick={closeModal} aria-label="close">
-                  <Close color="secondary" />
-                </IconButton>{' '}
-              </Stack>
-              <Typography fontSize="0.85rem">*Updated weekly</Typography>
-            </DialogTitle>
-            <DialogContent>
-              <Stack gap={2}>
-                {astronauts?.map((astronaut) => (
-                  <AstronautCard key={astronaut.id} astronaut={astronaut} />
-                ))}
-              </Stack>
-            </DialogContent>
-          </>
-        )}
-      </Dialog>
+      {modalOpen && (
+        <WhosInSpaceModal modalOpen={modalOpen} closeModal={closeModal} />
+      )}
       <StyledButton onClick={openModal}>Who's in space?</StyledButton>
     </>
+  );
+}
+
+function WhosInSpaceModal(props: {
+  modalOpen: boolean;
+  closeModal: () => void;
+}) {
+  const { modalOpen, closeModal } = props;
+  const { astronauts, loading, isError } = useWhosInSpace();
+
+  return (
+    <Dialog open={modalOpen} onClose={closeModal} fullWidth maxWidth="md">
+      {!isError ? (
+        <>
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <>
+              <DialogTitle>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Typography fontSize="1.5rem" fontWeight={500} mr={5}>
+                    People currently in space: {astronauts?.length}*
+                  </Typography>
+                  <IconButton onClick={closeModal} aria-label="close">
+                    <Close color="secondary" />
+                  </IconButton>{' '}
+                </Stack>
+                <Typography fontSize="0.85rem">*Updated weekly</Typography>
+              </DialogTitle>
+              <DialogContent>
+                <Stack gap={2}>
+                  {astronauts?.map((astronaut) => (
+                    <AstronautCard key={astronaut.id} astronaut={astronaut} />
+                  ))}
+                </Stack>
+              </DialogContent>
+            </>
+          )}
+        </>
+      ) : (
+        <DialogTitle>
+          <Stack direction="row" columnGap={2} alignItems="center">
+            <ErrorOutline color="error" />
+            <Typography>Whoops! Something went wrong :(</Typography>
+            <IconButton
+              onClick={closeModal}
+              aria-label="close"
+              sx={{ ml: 'auto' }}
+            >
+              <Close color="secondary" />
+            </IconButton>
+          </Stack>
+        </DialogTitle>
+      )}
+    </Dialog>
   );
 }
 

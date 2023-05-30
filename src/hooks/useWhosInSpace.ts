@@ -71,31 +71,40 @@ type APIResponse = z.infer<typeof responseSchema>;
 export default function useWhosInSpace() {
   const [astronauts, setAstronauts] = useState<Astronaut[]>();
   const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    async function fetchAndSetAstronauts() {
-      let { astronauts, dateAstronautsFetched } =
-        await chrome.storage.local.get(['astronauts', 'dateAstronautsFetched']);
+    const fetchAndSetAstronauts = async () => {
+      try {
+        let { astronauts, dateAstronautsFetched } =
+          await chrome.storage.local.get([
+            'astronauts',
+            'dateAstronautsFetched',
+          ]);
 
-      if (astronauts && isWithinSevenDays(dateAstronautsFetched)) {
-        setAstronauts(validateResponse(astronauts));
+        if (astronauts && isWithinSevenDays(dateAstronautsFetched)) {
+          setAstronauts(validateResponse(astronauts));
+          setLoading(false);
+          return;
+        }
+
+        astronauts = await fetchAstronauts();
+        await chrome.storage.local.set({
+          astronauts,
+          dateAstronautsFetched: format(new Date(), 'yyyy-MM-dd'),
+        });
+        setAstronauts(astronauts);
         setLoading(false);
-        return;
+      } catch (e) {
+        console.error(e);
+        setIsError(true);
       }
-
-      astronauts = await fetchAstronauts();
-      await chrome.storage.local.set({
-        astronauts,
-        dateAstronautsFetched: format(new Date(), 'yyyy-MM-dd'),
-      });
-      setAstronauts(astronauts);
-      setLoading(false);
-    }
+    };
 
     fetchAndSetAstronauts();
   }, []);
 
-  return { astronauts, loading };
+  return { astronauts, loading, isError };
 }
 
 async function fetchAstronauts() {
