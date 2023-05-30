@@ -6,12 +6,10 @@ This project's main purpose was to serve as my final project for Harvard's [CS50
 
 # Credit
 
-This project was bootstrapped with [chrome-extension-boilerplate-react](https://github.com/lxieyang/chrome-extension-boilerplate-react).
-
-This project would not be possible without the following APIs:
+This project was bootstrapped with [chrome-extension-boilerplate-react](https://github.com/lxieyang/chrome-extension-boilerplate-react) and it would not be possible without the following APIs:
 
 - [Astronomy Photo of the Day](https://api.nasa.gov/)
 - [Current location of the ISS](http://open-notify.org/Open-Notify-API/ISS-Location-Now/)
 - [Astronaut information](https://ll.thespacedevs.com/docs/)
 
-  Thank you to all of the contributors and maintainers.
+Thank you to all of the contributors and maintainers.

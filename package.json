@@ -2,7 +2,7 @@
   "name": "tea-time-in-space",
   "author": "Johnny Labedzki",
   "version": "0.0.0",
-  "description": "A chrome extension to deliver interesting facts and news about space",
+  "description": "A chrome extension to deliver interesting facts about space",
   "license": "MIT",
   "repository": {
     "type": "git",

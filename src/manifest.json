@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Tea Time In Space",
-  "description": "Sip your tea and enjoy some facts/news (current and old) about space!",
+  "description": "A new tab page that shows you interesting facts/images of space, the current location of the ISS, and astronauts currently in space.",
   "background": { "service_worker": "background.bundle.js" },
   "action": {
     "default_icon": "logo-32.png"
