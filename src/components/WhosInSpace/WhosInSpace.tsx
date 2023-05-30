@@ -9,6 +9,7 @@ import {
 } from '@mui/icons-material';
 import {
   Avatar,
+  Box,
   Card,
   CircularProgress,
   Collapse,
@@ -67,7 +68,9 @@ function WhosInSpaceModal(props: {
       {!isError ? (
         <>
           {loading ? (
-            <CircularProgress />
+            <Box width="100%" display="flex" justifyContent="center" p={4}>
+              <CircularProgress />
+            </Box>
           ) : (
             <>
               <DialogTitle>

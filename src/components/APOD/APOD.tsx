@@ -43,7 +43,9 @@ function APODModal(props: { modalOpen: boolean; closeModal: () => void }) {
       {!isError ? (
         <>
           {loading ? (
-            <CircularProgress />
+            <Box width="100%" display="flex" justifyContent="center" p={4}>
+              <CircularProgress />
+            </Box>
           ) : (
             <>
               <DialogTitle
