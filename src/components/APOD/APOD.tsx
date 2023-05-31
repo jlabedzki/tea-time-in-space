@@ -67,12 +67,30 @@ function APODModal(props: { modalOpen: boolean; closeModal: () => void }) {
                   alignItems: 'center',
                 }}
               >
-                <Box
-                  component="img"
-                  src={APOD?.url}
-                  alt={APOD?.title}
-                  sx={{ width: '100%' }}
-                />
+                {APOD?.media_type === 'image' ? (
+                  <>
+                    <Box
+                      component="img"
+                      src={APOD?.url}
+                      alt={APOD?.title}
+                      sx={{ width: '100%' }}
+                    />
+                    {APOD?.copyright && (
+                      <Typography alignSelf="start">
+                        © {APOD.copyright}
+                      </Typography>
+                    )}
+                  </>
+                ) : (
+                  <iframe
+                    src={APOD?.url}
+                    style={{
+                      minHeight: '500px',
+                      width: '100%',
+                      border: 'none',
+                    }}
+                  />
+                )}
                 <Typography mt={2} textAlign="justify">
                   {APOD?.explanation}
                 </Typography>

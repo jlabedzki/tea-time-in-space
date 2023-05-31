@@ -7,11 +7,12 @@ const NASA_API_KEY = process.env.NASA_API_KEY || '';
 const APODResponseSchema = z.object({
   date: z.string(),
   explanation: z.string(),
-  hdurl: z.string(),
+  hdurl: z.optional(z.string()),
   media_type: z.string(),
   service_version: z.string(),
   title: z.string(),
   url: z.string(),
+  copyright: z.optional(z.string()),
 });
 
 export type APODResponse = z.infer<typeof APODResponseSchema>;
