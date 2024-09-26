@@ -76,13 +76,14 @@ function APODModal(props: { modalOpen: boolean; closeModal: () => void }) {
                       sx={{ width: '100%' }}
                     />
                     {APOD?.copyright && (
-                      <Typography alignSelf="start">
+                      <Typography alignSelf="start" mt={0.5}>
                         © {APOD.copyright}
                       </Typography>
                     )}
                   </>
                 ) : (
                   <iframe
+                    title="Astronomy Photo of the Day"
                     src={APOD?.url}
                     style={{
                       minHeight: '500px',
@@ -91,7 +92,7 @@ function APODModal(props: { modalOpen: boolean; closeModal: () => void }) {
                     }}
                   />
                 )}
-                <Typography mt={2} textAlign="justify">
+                <Typography mt={2} fontSize="1rem">
                   {APOD?.explanation}
                 </Typography>
               </DialogContent>

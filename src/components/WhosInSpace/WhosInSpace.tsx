@@ -212,7 +212,7 @@ function AstronautCard({ astronaut }: { astronaut: Astronaut }) {
         </IconButton>
       </Stack>
       <Collapse in={expanded} unmountOnExit>
-        <Typography textAlign="justify" pt={2}>
+        <Typography fontSize="1rem" pt={2}>
           {astronaut.bio}
         </Typography>
       </Collapse>

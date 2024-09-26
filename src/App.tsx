@@ -1,4 +1,4 @@
-import { Button, ButtonProps, Grid, Stack, styled } from '@mui/material';
+import { Button, ButtonProps, Stack, styled, Box } from '@mui/material';
 import {
   APOD,
   GoogleSearchBar,
@@ -7,11 +7,11 @@ import {
   WhosInSpace,
 } from 'components';
 
-const StyledGridContainer = styled(Grid)(({ theme }) => ({
+const Container = styled(Box)(({ theme }) => ({
+  display: 'flex',
   flexDirection: 'column',
   flexWrap: 'nowrap',
   alignItems: 'center',
-  justifyContent: 'space-between',
   height: '100%',
   width: '100%',
   position: 'relative',
@@ -21,31 +21,35 @@ const StyledGridContainer = styled(Grid)(({ theme }) => ({
 
 export default function App() {
   return (
-    <StyledGridContainer container>
-      <Grid item></Grid>
-      <Grid item container direction="column" width="inherit" spacing={5}>
-        <Grid item display="flex" justifyContent="center" width="inherit">
-          <GoogleSearchBar />
-        </Grid>
-        <Grid item>
-          <Stack
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            flexWrap="wrap"
-            columnGap={5}
-            rowGap={3}
-          >
-            <APOD />
-            <ISSSpotter />
-            <WhosInSpace />
-          </Stack>
-        </Grid>
-      </Grid>
-      <Grid item width="inerhit" maxWidth="1200px">
+    <Container>
+      <Box
+        sx={{
+          flex: '1',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 4,
+        }}
+      >
+        <GoogleSearchBar />
+        <Stack
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          flexWrap="wrap"
+          columnGap={5}
+          rowGap={3}
+        >
+          <APOD />
+          <ISSSpotter />
+          <WhosInSpace />
+        </Stack>
+      </Box>
+      <Box width="inerhit" maxWidth="1200px">
         <SpaceFactOTD />
-      </Grid>
-    </StyledGridContainer>
+      </Box>
+    </Container>
   );
 }
 
@@ -55,7 +59,7 @@ export function StyledButton(props: ButtonProps) {
       variant="outlined"
       color="secondary"
       size="large"
-      sx={{ fontSize: '1.2rem', minWidth: 'max-content' }}
+      sx={{ fontSize: '1rem', minWidth: 'max-content' }}
       {...props}
     >
       {props.children}

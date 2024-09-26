@@ -29,7 +29,7 @@ export default function GoogleSearchBar() {
 
   const theme = useTheme();
   return (
-    <FormControl sx={{ width: 'inherit', maxWidth: '550px' }}>
+    <FormControl sx={{ width: '100%', maxWidth: '550px' }}>
       <TextField
         fullWidth
         placeholder="Search Google or type a URL"
